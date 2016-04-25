@@ -12,9 +12,12 @@ import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-
 
 ReactDOM.render(<Router history={browserHistory}>
     <Route path="/" component={Application} >
-        <IndexRedirect to="home"/>
-        <Route path="home" component={HomePage}/>
-        {/* <Route path="about" component={AboutPage} /> */}
+        <IndexRoute component={HomePage} />
+        {/*
+            <IndexRedirect to="home"/>
+            <Route path="home" component={HomePage}/>
+            <Route path="about" component={AboutPage} /> 
+        */}
     </Route>
 </Router>, document.getElementById('Root'))
 
