@@ -1,0 +1,41 @@
+.Menu {
+
+    li {
+        text-align: right;
+        list-style: none;
+        display: inline-block;
+        margin: 0 1rem;
+    }
+
+    a.MenuItem {
+        display: block;
+        margin-bottom: 0.5rem;
+
+        color: #c8c8c8;
+    
+        &.current {
+            color: white;
+        }
+    }
+
+    @media (max-width: 550px) {
+        width: 100%;
+        right: 0;
+
+        ul {
+            width: 100%;
+            display: flex;
+            argin: 0;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            padding: 0;
+
+
+            li {
+                text-align: center;
+                flex: 1 1;
+            }
+        }
+    }
+}

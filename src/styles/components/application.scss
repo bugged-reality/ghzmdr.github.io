@@ -1,0 +1,19 @@
+#Application {
+    width: 100%;
+    height: 100%;
+
+    color: white;
+
+    .Background {
+        position: absolute;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+    }
+
+    .Menu {
+        position: absolute;
+        top: 1rem;
+        right: 0.5rem;
+        z-index: 1;
+    }
+}

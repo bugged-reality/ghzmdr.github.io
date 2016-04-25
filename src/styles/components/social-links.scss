@@ -1,0 +1,13 @@
+.SocialLinks {
+    transition: width 0.3s;
+
+    p {
+        @include text-elevation(2);
+        margin: 0 0 1rem 0.2rem;
+        font-size: 1.2rem;
+    }
+
+    .HoverLink {
+        margin-right: 1.5rem;
+    }
+}
