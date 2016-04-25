@@ -9,7 +9,7 @@ export default class HomePage extends React.Component {
             <div className="IntroText">
                 <img className="Portrait" src={require('../../assets/images/portrait.jpg')} />
                 <div className="Greetings">
-                    <h2> Hi, 192.168.2.120 </h2>
+                    <h2> Hi stranger </h2>
                     <h4> I'm Vincent </h4>
                 </div>
             </div>
