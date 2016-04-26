@@ -6,7 +6,7 @@
     min-width: 1em;
     height: 1.8em;
     
-    transform: translateZ(0.00001px);
+    transform: translateZ(1px);
 
     &_Icon, &_Icon.Icon {
         width: 1.8em;
@@ -20,6 +20,8 @@
         right: 0;
         top: 0;
         background-color: #FFF;
+
+        transform: translateZ(1px);
     }
 
     &_Label {
@@ -32,9 +34,11 @@
         padding-left: 0.5em;
         padding-right: 0;
 
-
         height: 1.8em;
         line-height: 1.7em;
+
+
+        transform: translateZ(1px);
 
         max-width: 1.8em;
         transition: max-width 0.5s ease-out,

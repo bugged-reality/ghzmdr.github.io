@@ -1,7 +1,7 @@
 export default function polkaSketch(p5) {
 
     return function (p) {
-        var CIRCLE_W = 23
+        var CIRCLE_W = 30
         var ACTUAL_W = CIRCLE_W*0.72
         var MIN_W = 0
         var CIRCLE_DIST = CIRCLE_W/2
@@ -11,7 +11,7 @@ export default function polkaSketch(p5) {
         var GREATER = Math.max(innerWidth, innerHeight)
 
         var dots = []
-        var beacon
+        var beacon = new p5.Vector(48, 48)
 
         var CANVAS
 
@@ -40,12 +40,10 @@ export default function polkaSketch(p5) {
         }
 
         p.draw = function () {            
-            p.fill('#263238')
+            p.fill('#00BCD4')
             p.rect(0,0,innerWidth, innerHeight)
 
-            beacon = new p5.Vector(p.mouseX || p.touchX, p.mouseY || p.touchY)
-
-            p.fill('#F44336')
+            p.fill('#424242')
             dots.forEach(function (dot) {        
                 dot.render()
             })
