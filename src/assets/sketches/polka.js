@@ -33,7 +33,7 @@ export default function polkaSketch(p5) {
 
         p.setup = function () {         
             CANVAS = p.createCanvas(innerWidth, innerHeight)   
-            p.frameRate(10)         
+            p.frameRate(20)         
             setDimensions()
             p.noStroke()
             window.addEventListener('resize', setDimensions)            
