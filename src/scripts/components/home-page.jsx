@@ -7,7 +7,7 @@ export default class HomePage extends React.Component {
 
         return <div id="HomePage" className="Page">
             <div className="IntroText">
-                <img className="Portrait" src={require('../../assets/images/portrait.jpg')} />
+                <img className="Portrait" src={require('../../assets/images/portrait.png')} />
                 <div className="Greetings">
                     <h2> Hi stranger </h2>
                     <h4> I'm Vincent </h4>

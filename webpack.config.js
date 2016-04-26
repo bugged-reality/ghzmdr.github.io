@@ -24,7 +24,7 @@ module.exports = {
 				loader: 'style!css?sourceMap!postcss?sourceMap!sass?sourceMap'
 			},
 			{
-				test: /\.(svg|jpg)$/,
+				test: /\.(svg|jpg|png)$/,
 				loader: 'url'
 			}
 		]
