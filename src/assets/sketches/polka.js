@@ -12,6 +12,7 @@ export default function polkaSketch(p5) {
 
         var dots = []
         var beacon = new p5.Vector(48, 48)
+        var isResizing = false
 
         var CANVAS
 
@@ -33,16 +34,20 @@ export default function polkaSketch(p5) {
 
         p.setup = function () {         
             CANVAS = p.createCanvas(innerWidth, innerHeight)   
-            p.frameRate(20)         
+            p.frameRate(10)
             setDimensions()
             p.noStroke()
             window.addEventListener('resize', setDimensions)            
         }
 
-        p.draw = function () {            
-            p.fill('#00BCD4')
-            p.rect(0,0,innerWidth, innerHeight)
 
+        function clear() {            
+            p.fill('#00BCD4')
+            p.rect(0,0,innerWidth, innerHeight)            
+        }
+
+        p.draw = function () {
+            clear()
             p.fill('#424242')
             dots.forEach(function (dot) {        
                 dot.render()
