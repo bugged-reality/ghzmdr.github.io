@@ -1,6 +1,7 @@
-var autoprefixer = require('autoprefixer')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 var webpack = require('webpack')
+var autoprefixer = require('autoprefixer')
+var HtmlPlugin = require('html-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
 	devtool: 'cheap-module-source-map',
@@ -23,7 +24,7 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
-				loader: 'style!css?sourceMap!postcss?sourceMap!sass?sourceMap'
+				loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap")
 			},
 			{
 				test: /\.(svg|jpg|png)$/,
@@ -37,7 +38,7 @@ module.exports = {
 	},
 
 	plugins: [
-		new HtmlWebpackPlugin({
+		new HtmlPlugin({
 			filename: 'index.html',
 			template: './src/html/index.html',
 			inject: true
@@ -46,7 +47,9 @@ module.exports = {
 		    'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 	    	}
-	  	})
+	  	}),
+
+        new ExtractTextPlugin("[name].css")
 	],
 
 	resolve: {
