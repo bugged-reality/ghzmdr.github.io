@@ -49,9 +49,9 @@ export default function polkaSketch(p5) {
         p.draw = function () {
             clear()
             p.fill('#424242')
-            dots.forEach(function (dot) {        
-                dot.render()
-            })
+            for (var di = 0; di < dots.length; ++di) {
+                dots[di].render()
+            }
         }
 
         var Dot = function (posX, posY) {
@@ -61,6 +61,8 @@ export default function polkaSketch(p5) {
         Dot.prototype = {
             render: function () {
                 var w = this.calcWidth()
+                if (w < 1) return
+
                 p.ellipse(this.position.x, this.position.y, w, w)
             },
 
