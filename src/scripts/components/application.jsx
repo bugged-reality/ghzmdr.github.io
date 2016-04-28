@@ -4,8 +4,7 @@ import Background from './background'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 export default class Application extends React.Component {
-
-	render() {
+  render() {
 		return <div id="Application">
             {/* <Menu /> */}
             <Background />

@@ -30,27 +30,6 @@
     }
 }
 
-
-
-/*
-.Page.transition-enter.transition-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.Page.transition-leave {
-    position: absolute;
-    top: 0; left: 0;
-    opacity: 1;
-}
-
-.Page.transition-leave.transition-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}
-
-*/
-
 #HomePage.transition-leave {
     overflow: hidden;
     .IntroText, .SocialLinks {
