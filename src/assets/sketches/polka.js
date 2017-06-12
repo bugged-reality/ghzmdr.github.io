@@ -27,28 +27,28 @@ export default function polkaSketch(p5) {
             for (var ci = 0; ci < COLS; ++ci)
                 for (var ri = 0; ri < ROWS; ++ri){
                     var dot = new Dot(ci * CIRCLE_DIST, ri * CIRCLE_DIST)
-                          
+
                     dots.push(dot)
                 }
         }
 
-        p.setup = function () {         
-            CANVAS = p.createCanvas(innerWidth, innerHeight)   
+        p.setup = function () {
+            CANVAS = p.createCanvas(innerWidth, innerHeight)
             p.frameRate(10)
             setDimensions()
             p.noStroke()
-            window.addEventListener('resize', setDimensions)            
+            window.addEventListener('resize', setDimensions)
         }
 
 
-        function clear() {            
-            p.fill('#00BCD4')
-            p.rect(0,0,innerWidth, innerHeight)            
+        function clear() {
+            p.fill('#cc3f56')
+            p.rect(0,0,innerWidth, innerHeight)
         }
 
         p.draw = function () {
             clear()
-            p.fill('#424242')
+            p.fill('#8d73d1')
             for (var di = 0; di < dots.length; ++di) {
                 dots[di].render()
             }
