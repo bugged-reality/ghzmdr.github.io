@@ -84,9 +84,7 @@
                 .then(displayTracks)
                 .catch(displayError)
 
-            video.onloadedmetadata = function () {
-                video.play()
-            }
+            video.play()
         }
 
         buttonPlay.addEventListener('click', startCapture)
