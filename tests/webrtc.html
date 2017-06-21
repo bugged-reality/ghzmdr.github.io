@@ -79,6 +79,7 @@
             alert('try')
             var streamURL = URL.createObjectURL(stream)
             alert('set')
+            video.src = streamURL
             video.srcObject = stream
             alert('done')
         }
