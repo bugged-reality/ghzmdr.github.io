@@ -71,14 +71,15 @@
         }
 
         function displayError(e) {
-            error.innerText = e.toString()
+            error.innerText = JSON.stringify(e)
         }
 
         function displayTracks(stream) {
             error.innerText = ""
             var streamURL = URL.createObjectURL(stream)
-            console.log('asd')
+            alert('url')
             video.srcObject = stream
+            alert('url')
         }
 
         function startCapture() {
