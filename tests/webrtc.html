@@ -71,7 +71,7 @@
         }
 
         function displayError(e) {
-            error.innerText = JSON.stringify(e)
+            error.innerText = JSON.stringify(e) + '\n' + e.toString();
         }
 
         function displayTracks(stream) {
