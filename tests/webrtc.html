@@ -76,7 +76,8 @@
 
         function displayTracks(stream) {
             error.innerText = ""
-            video.srcObject = stream;
+            var streamURL = URL.createObjectURL(stream)
+            video.srcObject = streamURL
         }
 
         function startCapture() {
