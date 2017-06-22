@@ -107,7 +107,7 @@
             },
 
             startCapture: function() {
-                navigator.mediaDevices.getUserMedia(constraints)
+                navigator.mediaDevices.getUserMedia(this.constraints)
                     .then(this.handleUserMediaError)
                     .catch(this.handleUserMediaStream)
             }
