@@ -110,7 +110,7 @@
             }
 
             this.audioSource = null
-            this.audioContext = new (AudioContext || webkitAudioContext)()
+            this.audioContext = new (webkitAudioContext)()
             this.filterInput = this.audioContext.createGain()
             this.filterOutput = this.audioContext.createGain()
             this.tuna = new Tuna(this.audioContext);
