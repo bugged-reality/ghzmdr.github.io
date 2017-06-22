@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get User Media</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
+
+    <style type="text/css">
+        html {
+            font-family: Lato;
+            text-align: center;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            background-color: #424242;
+
+            margin-bottom: 1rem;
+        }
+
+        .advice {
+            display: block;
+            color: #FFA726;
+            font-size: 0.8em;
+            margin-bottom: 1rem;
+
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 0.4em 1rem;
+            outline: none;
+            color: #424242;
+            border: none;
+            border-radius: 4px;
+            cursor: hand;
+            cursor: pointer;
+            background-color: rgb(192, 192, 192);
+        }
+
+        #error {
+            display: block;
+            color: #DD2C00;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <video id="sink" autoplay playsinline></video>
+        <div class="advice">Warning: wear your headphones and/or lower the volume</div>
+        <button id="button-play">Start capturing</button>
+        <p id="error"></p>
+
+        <div class="filters">
+            <button id="chorus">Chorus</button>
+            <button id="overdrive">Overdrive</button>
+            <button id="convolver">Convolver</button>
+            <button id="pingpong">PingPong</button>
+            <button id="wahwah">Wahwah</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./tuna-min.js"></script>
+
+    <script type="text/javascript">
+
+        var Application = function () {
+
+            this.video = document.getElementById('sink')
+            this.buttonPlay =  document.getElementById('button-play')
+            this.error = document.getElementById('error')
+
+            this.filterButtons = {
+                chorus: document.getElementById('chorus'),
+                overdrive: document.getElementById('overdrive'),
+                convolver: document.getElementById('convolver'),
+                wahwah: document.getElementById('wahwah'),
+                pingpong: document.getElementById('pingpong')
+            }
+
+            this.constraints = {
+                audio : true,
+                video : false
+            }
+
+            this.audioSource = null
+            this.audioContext = new AudioContext()
+            this.filterInput = this.audioContext.createGain()
+            this.filterOutput = this.audioContext.createGain()
+            this.tuna = new Tuna(this.audioContext);
+
+            this.createFilters();
+
+            this.startCapture = this.startCapture.bind(this);
+            this.handleUserMediaError = this.handleUserMediaError.bind(this);
+            this.handleUserMediaStream = this.handleUserMediaStream.bind(this);
+
+            this.buttonPlay.addEventListener('click', this.startCapture);
+
+            for (var k in this.filterButtons) {
+                this.filterButtons[k].addEventListener('click', this.setFilter.bind(this, k))
+            }
+        }
+
+        Application.prototype = {
+
+            setFilter: function(key) {
+                for (var k in this.filters) {
+                    this.filters[k].bypass = true
+                }
+
+                this.filters[key].bypass = false
+            },
+
+            createFilters: function () {
+                this.filters = {
+                    chorus: new this.tuna.Chorus({
+                        rate: 1.5,
+                        feedback: 0.2,
+                        delay: 0.0045,
+                        bypass: 0
+                    }),
+
+                    overdrive: new this.tuna.Overdrive({
+                        outputGain: 0.1,         //0 to 1+
+                        drive: 0.7,              //0 to 1
+                        curveAmount: 1,          //0 to 1
+                        algorithmIndex: 0,       //0 to 5, selects one of our drive algorithms
+                        bypass: 0
+                    }),
+
+                    convolver: new this.tuna.Convolver({
+                        highCut: 22050,                         //20 to 22050
+                        lowCut: 20,                             //20 to 22050
+                        dryLevel: 1,                            //0 to 1+
+                        wetLevel: 1,                            //0 to 1+
+                        level: 1,                               //0 to 1+, adjusts total output of both wet and dry
+                        impulse: "impulses/impulse_rev.wav",    //the path to your impulse response
+                        bypass: 0
+                    }),
+
+                    wahwah: new this.tuna.WahWah({
+                        automode: true,                //true/false
+                        baseFrequency: 0.5,            //0 to 1
+                        excursionOctaves: 2,           //1 to 6
+                        sweep: 0.2,                    //0 to 1
+                        resonance: 10,                 //1 to 100
+                        sensitivity: 0.5,              //-1 to 1
+                        bypass: 0
+                    }),
+
+                    pingpong: new this.tuna.PingPongDelay({
+                        wetLevel: 0.5, //0 to 1
+                        feedback: 0.3, //0 to 1
+                        delayTimeLeft: 150, //1 to 10000 (milliseconds)
+                        delayTimeRight: 200 //1 to 10000 (milliseconds)
+                    })
+                }
+            },
+
+            handleUserMediaError: function(e) {
+                this.error.innerText = e.toString() + '\n --- ' + JSON.stringify(e)
+            },
+
+            handleUserMediaStream: function(stream) {
+                this.error.innerText = ""
+                this.video.srcObject = stream
+
+                this.audioSource = this.audioContext.createMediaStreamSource(stream)
+
+                this.attachFilters()
+
+                this.video.play()
+            },
+
+            attachFilters: function() {
+                for (var k in this.filters) {
+                    this.audioSource.connect(this.filters[k])
+                    this.filters[k].connect(this.audioContext.destination)
+                    this.filters[k].bypass = true
+                }
+            },
+
+            startCapture: function() {
+                navigator.mediaDevices.getUserMedia(this.constraints)
+                    .then(this.handleUserMediaStream)
+                    .catch(this.handleUserMediaError)
+            }
+        }
+
+        window.onload = function() {
+            window.application = new Application();
+        }
+
+    </script>
+</body>
+
+</html>
