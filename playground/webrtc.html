@@ -58,43 +58,63 @@
         <div class="advice">Warning: wear your headphones and/or lower the volume</div>
         <button id="button-play">Start capturing</button>
         <p id="error"></p>
+
+        <div class="filters">
+            <button>Bicubic</button>
+            <button></button>
+            <button></button>
+            <button></button>
+        </div>
     </div>
 
     <script type="text/javascript">
-        var video = document.getElementById('sink')
-        var buttonPlay = document.getElementById('button-play')
-        var error = document.getElementById('error')
 
-        var audioTrack = null
-        var audioSource = null
-        var audioContext = new AudioContext()
+        var Application = function () {
 
-        var constraints = {
-            audio: true,
-            video: true
+            this.video = document.getElementById('sink')
+            this.buttonPlay =  document.getElementById('button-play')
+            this.error = document.getElementById('error')
+
+            this.constraints = {
+                audio : true,
+                video : false
+            },
+
+            this.audioSource = null
+            this.audioContext = new AudioContext()
+
+
+            this.startCapture = this.startCapture.bind(this);
+            this.handleUserMediaError = this.handleUserMediaError.bind(this);
+            this.handleUserMediaStream = this.handleUserMediaStream.bind(this);
+
+            this.buttonPlay.addEventListener('click', this.startCapture);
         }
 
-        function displayError(e) {
-            error.innerText = JSON.stringify(e) + '\n' + e.toString()
+        Application.prototype = {
+
+            handleUserMediaError: function(e) {
+                this.error.innerText = e.toString() + '\n --- ' + JSON.stringify(e)
+            },
+
+            handleUserMediaStream: function(stream) {
+                this.error.innerText = ""
+                this.video.srcObject = stream
+
+                this.audioSource = audioContext.createMediaStreamSource(stream)
+
+                this.video.play()
+            },
+
+            startCapture: function() {
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then(this.handleUserMediaError)
+                    .catch(this.handleUserMediaStream)
+            }
         }
 
-        function displayTracks(stream) {
-            error.innerText = ""
-            video.srcObject = stream
+        window.Application = new Application();
 
-            audioTrack = stream.getAudioTracks()[0]
-            audioSource = audioContext.createMediaStreamSource(audioTrack)
-
-            video.play()
-        }
-
-        function startCapture() {
-            navigator.mediaDevices.getUserMedia(constraints)
-                .then(displayTracks)
-                .catch(displayError)
-        }
-
-        buttonPlay.addEventListener('click', startCapture)
     </script>
 </body>
 
