@@ -87,11 +87,13 @@
             <input type="radio" name="filter" id="filter-convolver" value="convolver"><label for="filter-convolver">Convolver</label>
             <input type="radio" name="filter" id="filter-pingpong" value="pingpong"><label for="filter-pingpong">PingPong</label>
             <input type="radio" name="filter" id="filter-wahwah" value="wahwah"><label for="filter-wahwah">Wahwah</label>
+            <input type="radio" name="filter" id="filter-custom" value="custom"><label for="filter-custom">Custom</label>
 
         </div>
     </div>
 
     <script type="text/javascript" src="./tuna-min.js"></script>
+    <script type="text/javascript" src="./overdrive.js"></script>
 
     <script type="text/javascript">
 
@@ -111,6 +113,7 @@
 
             this.audioSource = null
             this.audioContext = new (window.webkitAudioContext || window.AudioContext)()
+            this.audioGain = this.audioContext.createGain();
             this.tuna = new Tuna(this.audioContext);
 
             this.createFilters();
@@ -134,7 +137,16 @@
                     this.filters[k].bypass = true
                 }
 
-                this.filters[key].bypass = false
+                if (key === 'custom') {
+                    this.audioGain.connect(this.filters.custom)
+                    this.filters.custom.connect(this.audioContext.destination)
+                } else {
+                    this.audioGain.disconnect(this.filters.custom)
+                    this.filters.custom.disonnect(this.audioContext.destination)
+
+                    this.filters[key].bypass = false
+                }
+
             },
 
             createFilters: function () {
@@ -179,8 +191,17 @@
                         feedback: 0.3, //0 to 1
                         delayTimeLeft: 150, //1 to 10000 (milliseconds)
                         delayTimeRight: 200 //1 to 10000 (milliseconds)
+                    }),
+
+                    custom: new Overdrive(this.audioContext, {
+                      preBand: 2.0,
+                      color: 8000,
+                      drive: 1.5,
+                      postCut: 8000
                     })
+
                 }
+
             },
 
             handleUserMediaError: function(e) {
@@ -202,10 +223,12 @@
             },
 
             attachFilters: function() {
-                var gain = this.audioContext.createGain();
-                this.audioSource.connect(gain);
+
+                this.audioSource.connect(this.audioGain);
                 for (var k in this.filters) {
-                    gain.connect(this.filters[k])
+                    if (k === 'custom') continue;
+
+                    this.audioGain.connect(this.filters[k])
 
                     this.filters[k].connect(this.audioContext.destination)
                     this.filters[k].bypass = true
