@@ -123,9 +123,9 @@
 
             this.buttonPlay.addEventListener('click', this.startCapture);
 
-            for (var k in this.filterButtons) {
-                this.filterButtons[k].addEventListener('click', this.setFilter.bind(this, this.filterButtons[k].value))
-            }
+            this.filterButtons.forEach(function(button) {
+                button.addEventListener('click', this.setFilter.bind(this, button.value))
+            })
         }
 
         Application.prototype = {
