@@ -129,6 +129,7 @@
         Application.prototype = {
 
             setFilter: function(key) {
+                alert('Setting filter ' + key)
                 for (var k in this.filters) {
                     this.filters[k].bypass = true
                 }
