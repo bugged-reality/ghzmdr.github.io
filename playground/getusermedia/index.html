@@ -205,7 +205,7 @@
                 for (var k in this.filters) {
                     this.audioSource.connect(this.filters[k])
                     this.filters[k].connect(this.audioContext.destination)
-                    // this.filters[k].bypass = true
+                    this.filters[k].bypass = true
                 }
             },
 
