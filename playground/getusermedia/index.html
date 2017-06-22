@@ -110,9 +110,7 @@
             }
 
             this.audioSource = null
-            this.audioContext = new (webkitAudioContext)()
-            this.filterInput = this.audioContext.createGain()
-            this.filterOutput = this.audioContext.createGain()
+            this.audioContext = new (webkitAudioContext || AudioContext)()
             this.tuna = new Tuna(this.audioContext);
 
             this.createFilters();
@@ -196,7 +194,7 @@
 
                 this.attachFilters()
 
-                this.buttonPlay.disabled = true
+                // this.buttonPlay.disabled = true
                 this.checkboxVideo.disabled = true
 
                 this.video.play()
