@@ -200,7 +200,7 @@
                 this.video.play()
                 this.video.onmetadataloaded = function() {
                     this.video.play()
-                }.bins(this)
+                }.bind(this)
             },
 
             attachFilters: function() {
