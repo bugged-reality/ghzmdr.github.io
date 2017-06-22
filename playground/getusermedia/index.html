@@ -221,13 +221,17 @@
 
         window.onload = function() {
             window.application = new Application();
+            if (eruda) eruda.init();
         }
 
 
-
     </script>
-    <script src="//cdn.jsdelivr.net/eruda/1.2.2/eruda.min.js"></script>
-    <script>eruda.init();</script>
+    <script>
+        if (/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') {
+            document.write('<scr' + 'ipt src="//cdn.jsdelivr.net/eruda/1.2.2/eruda.min.js"></scr' + 'ipt>');
+            document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
+        }
+    </script>
 
 </body>
 
