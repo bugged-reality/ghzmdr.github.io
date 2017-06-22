@@ -65,6 +65,8 @@
         var buttonPlay = document.getElementById('button-play')
         var error = document.getElementById('error')
 
+        var audioTrack = null;
+
         var constraints = {
             audio: true,
             video: true
@@ -78,7 +80,8 @@
             error.innerText = ""
             video.srcObject = stream
 
-            debugger
+            audioTrack = stream.getAudioTracks()[0];
+
             video.play()
         }
 
