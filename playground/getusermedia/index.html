@@ -198,6 +198,9 @@
                 this.checkboxVideo.disabled = true
 
                 this.video.play()
+                this.video.onmetadataloaded = function() {
+                    this.video.play()
+                }.bins(this)
             },
 
             attachFilters: function() {
