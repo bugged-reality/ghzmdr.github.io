@@ -141,8 +141,9 @@
                     this.audioGain.connect(this.filters.custom)
                     this.filters.custom.connect(this.audioContext.destination)
                 } else {
-                    this.audioGain.disconnect(this.filters.custom)
-                    this.filters.custom.disonnect(this.audioContext.destination)
+                    // this.audioGain.disconnect(this.filters.custom)
+                    this.filters.custom.disconnect(this.audioGain)
+                    this.filters.custom.disconnect(this.audioContext.destination)
 
                     this.filters[key].bypass = false
                 }
