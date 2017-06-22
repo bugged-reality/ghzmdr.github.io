@@ -77,6 +77,8 @@
         function displayTracks(stream) {
             error.innerText = ""
             video.srcObject = stream
+
+            debugger
             video.play()
         }
 
@@ -84,8 +86,6 @@
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(displayTracks)
                 .catch(displayError)
-
-            video.play()
         }
 
         buttonPlay.addEventListener('click', startCapture)
