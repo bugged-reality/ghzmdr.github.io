@@ -65,7 +65,9 @@
         var buttonPlay = document.getElementById('button-play')
         var error = document.getElementById('error')
 
-        var audioTrack = null;
+        var audioTrack = null
+        var audioSource = null
+        var audioContext = new AudioContext()
 
         var constraints = {
             audio: true,
@@ -73,14 +75,15 @@
         }
 
         function displayError(e) {
-            error.innerText = JSON.stringify(e) + '\n' + e.toString();
+            error.innerText = JSON.stringify(e) + '\n' + e.toString()
         }
 
         function displayTracks(stream) {
             error.innerText = ""
             video.srcObject = stream
 
-            audioTrack = stream.getAudioTracks()[0];
+            audioTrack = stream.getAudioTracks()[0]
+            audioSource = audioContext.createMediaStreamSource(audioTrack)
 
             video.play()
         }
