@@ -270,7 +270,7 @@
 
             this.audioAnalyser = this.audioContext.createAnalyser()
             this.audioAnalyser.fttSize = 64
-            this.audioAnalyser.connect(this.audioContext.destination)
+            this.audioGain = this.audioContext.createGain();
             this.frequencyData = new Uint8Array(this.audioAnalyser.frequencyBinCount) //MAX is 255
 
             this.loop = this.loop.bind(this);
@@ -310,7 +310,6 @@
                 this.norm.innerText = this.info.norm;
                 this.max.innerText = this.info.max;
 
-
                 var treshold = 100;
                 var value = Math.max(this.info.norm - treshold, 0);
                 this._growTimeline.progress(value / 255)
@@ -339,11 +338,16 @@
             },
 
             handleUserMediaStream: function(stream) {
-                alert('stream')
                 this.error.innerText = ""
-                this.audioSource = this.audioContext.createMediaStreamSource(stream)
                 this.audio.srcObject = stream
+
+                this.audioSource = this.audioContext.createMediaStreamSource(stream)
                 this.audioSource.connect(this.audioAnalyser)
+
+                this.audio.play()
+                this.audio.onmetadataloaded = function() {
+                    this.audio.play()
+                }.bind(this)
 
                 this.loop();
             },
@@ -358,7 +362,6 @@
                     getUserMedia = window.getUserMedia
                 }
 
-                alert('gum')
                 getUserMedia({audio: true})
                     .then(this.handleUserMediaStream)
                     .catch(this.handleUserMediaError)
@@ -378,7 +381,6 @@
             document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
         }
     </script>
-
 </body>
 
 </html>
