@@ -170,10 +170,25 @@
             color: black;
         }
 
+        .info {
+            position: fixed;
+            top: 50%;
+            text-align: left;
+            left: 0;
+            transform: translateY(-50%);
+            background-color: red;
+        }
+
     </style>
 </head>
 <body>
 
+
+    <div class="info">
+        <div class="row">Sum: <span id="sum"></span></div>
+        <div class="row">Norm: <span id="norm"></span></div>
+        <div class="row">Max: <span id="max"></span></div>
+    </div>
     <div class="growarea">
         <div id="baloon"></div>
     </div>
@@ -233,35 +248,38 @@
             this.bars = Array.from(document.querySelectorAll('.visualizer .column .bar'))
             this.values = Array.from(document.querySelectorAll('.visualizer .column .value'))
             this.error = document.getElementById('error')
+            this.norm = document.getElementById('norm')
+            this.sum = document.getElementById('sum')
+            this.max = document.getElementById('max')
 
             this.constraints = {
                 audio : true
+            }
+
+            this.info = {
+                norm: 0,
+                max: 0,
+                sum: 0
             }
 
             this.audioSource = null
             this.audioContext = new (window.webkitAudioContext || window.AudioContext)()
 
             this.audioAnalyser = this.audioContext.createAnalyser()
-            this.audioAnalyser.connect(this.audioContext.destination)
             this.audioAnalyser.fttSize = 64
+            this.audioAnalyser.connect(this.audioContext.destination)
             this.frequencyData = new Uint8Array(this.audioAnalyser.frequencyBinCount) //MAX is 255
 
             this.loop = this.loop.bind(this);
+            this.start = this.start.bind(this);
             this.startCapture = this.startCapture.bind(this);
             this.handleUserMediaError = this.handleUserMediaError.bind(this);
             this.handleUserMediaStream = this.handleUserMediaStream.bind(this);
 
-            this.buttonStart.addEventListener('click', this.startCapture);
-
-            this.setupGrowTimeline();
             this.animateIn();
-
-            this.loop();
         }
 
         Application.prototype = {
-
-
 
             loop: function() {
 
@@ -272,18 +290,42 @@
                     this.bars[i].style.transform = 'scaleY(' + progress + ')';
                 }
 
+                this.info.sum = 0;
+
                 for (var i in this.values) {
                     this.values[i].textContent = this.frequencyData[i]
+                    this.info.sum += this.frequencyData[i]
+
+                    if (this.frequencyData[i] > this.info.max) {
+                        this.info.max = this.frequencyData[i]
+                    }
                 }
+
+                this.info.norm = this.info.sum / this.values.length
+
+                this.sum.innerText = this.info.sum;
+                this.norm.innerText = this.info.norm;
+                this.max.innerText = this.info.max;
+
+
+                var treshold = 100;
+                var value = Math.max(this.info.norm - treshold, 0);
+                this._growTimeline.progress(value / 255)
 
                 requestAnimationFrame(this.loop)
             },
 
             animateIn: function () {
-                TweenLite.to(this.baloon, 0.8, {scaleX: 0.2, scaleY: 0.6, force3D: true, ease: Elastic.easeOut.config(1, 0.4)})
+                TweenLite.to(this.baloon, 0.8, {scaleX: 0.2, scaleY: 0.6, force3D: true, ease: Elastic.easeOut.config(1, 0.4), onComplete: this.start})
+            },
+
+            start: function() {
+                this.setupGrowTimeline();
+                this.buttonStart.addEventListener('click', this.startCapture);
             },
 
             setupGrowTimeline: function() {
+                console.log('build');
                 this._growTimeline = new TimelineLite();
                 this._growTimeline.fromTo(this.baloon, 1, {scaleX: 0.2, scaleY: 0.6}, {scaleX: 1, scaleY: 1, force3D: true, ease: Back.easeOut.config(1)})
                 this._growTimeline.stop();
@@ -298,9 +340,13 @@
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
 
                 this.audioSource.connect(this.audioAnalyser)
+
+                this.loop();
             },
 
             startCapture: function() {
+                TweenLite.to(this.buttonStart, 0.3, {autoAlpha: 0});
+
                 var getUserMedia
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     getUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices)
@@ -308,8 +354,9 @@
                     getUserMedia = window.getUserMedia
                 }
 
-                getUserMedia({audio: true}).then(this.handleUserMediaStream)
-                  .catch(this.handleUserMediaError)
+                getUserMedia({audio: true})
+                    .then(this.handleUserMediaStream)
+                    .catch(this.handleUserMediaError)
             }
         }
 
