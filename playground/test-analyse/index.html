@@ -308,7 +308,7 @@
 
                 this.audioSource = this.audioContext.createMediaElementSource(this.audio)
                 this.audioSource.connect(this.audioAnalyser)
-                // this.audioAnalyser.connect(this.audioContext.destination)
+                this.audioAnalyser.connect(this.audioContext.destination)
 
                 this.audio.play();
                 this.audio.addEventListener('ended', function() {
