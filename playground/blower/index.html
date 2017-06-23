@@ -193,6 +193,7 @@
         <div id="baloon"></div>
     </div>
 
+
     <div class="visualizer">
         <div class="column"><span class="value"></span><span class="bar"></span></div>
         <div class="column"><span class="value"></span><span class="bar"></span></div>
@@ -244,6 +245,7 @@
 
             this.buttonStart =  document.getElementById('button-start')
 
+            this.audio = document.getElementById('sink')
             this.baloon = document.getElementById('baloon')
             this.bars = Array.from(document.querySelectorAll('.visualizer .column .bar'))
             this.values = Array.from(document.querySelectorAll('.visualizer .column .value'))
@@ -325,17 +327,18 @@
             },
 
             setupGrowTimeline: function() {
-                console.log('build');
                 this._growTimeline = new TimelineLite();
                 this._growTimeline.fromTo(this.baloon, 1, {scaleX: 0.2, scaleY: 0.6}, {scaleX: 1, scaleY: 1, force3D: true, ease: Back.easeOut.config(1)})
                 this._growTimeline.stop();
             },
 
             handleUserMediaError: function(e) {
+                alert('err')
                 this.error.innerText = e.toString() + '\n --- ' + JSON.stringify(e)
             },
 
             handleUserMediaStream: function(stream) {
+                alert('stream')
                 this.error.innerText = ""
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
 
@@ -354,6 +357,7 @@
                     getUserMedia = window.getUserMedia
                 }
 
+                alert('gum')
                 getUserMedia({audio: true})
                     .then(this.handleUserMediaStream)
                     .catch(this.handleUserMediaError)
