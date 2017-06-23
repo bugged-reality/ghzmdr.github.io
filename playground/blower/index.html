@@ -345,11 +345,10 @@
 
             handleUserMediaStream: function(stream) {
                 this.error.innerText = ""
-                // this.audio.srcObject = stream
+                this.audio.srcObject = stream
 
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
-                this.audioSource.connect(this.audioContext.destination)
-                // this.audioSource.connect(this.audioAnalyser)
+                this.audioSource.connect(this.audioAnalyser)
 
                 // Do not connect or audio will play twice
                 // this.audioAnalyser.connect(this.audioContext.destination)
