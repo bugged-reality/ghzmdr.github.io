@@ -300,6 +300,9 @@
             },
 
             start: function() {
+                this.audio.onmetadataloaded = function() {
+                    this.audio.play()
+                }.bind(this)
                 this.audio.play()
                 this.loop();
             },
