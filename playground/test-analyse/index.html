@@ -300,21 +300,17 @@
             },
 
             start: function() {
-                this.audio.onmetadataloaded = function() {
-                    this.audio.play()
-                }.bind(this)
-                this.audio.play()
                 this.loop();
             },
 
             startCapture: function() {
-                // this.audioSource = this.audioContext.createMediaElementSource(this.audio)
-                // this.audioSource.connect(this.audioAnalyser)
+                this.audioSource = this.audioContext.createMediaElementSource(this.audio)
+                this.audioSource.connect(this.audioAnalyser)
                 // this.audioAnalyser.connect(this.audioContext.destination)
-                // this.start()
+
                 this.audio.play();
                 alert('play')
-
+                this.start();
             }
         }
 
