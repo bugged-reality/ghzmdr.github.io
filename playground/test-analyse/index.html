@@ -189,7 +189,7 @@
 </head>
 <body>
     <button id="button-start">Start</button>
-    <audio src="./test.mp3" id="sink"></audio>
+    <audio controls src="./test.mp3" id="sink"></audio>
 
     <div class="info">
         <div class="row">Sum: <span id="sum"></span></div>
@@ -308,10 +308,12 @@
             },
 
             startCapture: function() {
-                this.audioSource = this.audioContext.createMediaElementSource(this.audio)
-                this.audioSource.connect(this.audioAnalyser)
-                this.audioAnalyser.connect(this.audioContext.destination)
-                this.start()
+                // this.audioSource = this.audioContext.createMediaElementSource(this.audio)
+                // this.audioSource.connect(this.audioAnalyser)
+                // this.audioAnalyser.connect(this.audioContext.destination)
+                // this.start()
+                this.audio.play();
+                alert('play')
 
             }
         }
