@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Get User Media</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
 
     <style type="text/css">
@@ -132,15 +133,18 @@
         Application.prototype = {
 
             setFilter: function(key) {
-                alert('Setting filter ' + key)
+
                 for (var k in this.filters) {
-                    this.filters[k].bypass = true
+                    if (k === 'delay') {
+                        this.filters[k].delayTime.value = 0
+                    } else {
+                        this.filters[k].bypass = true
+                    }
                 }
 
                 if (key === 'delay') {
                     this.filters[k].delayTime.value = 1
                 } else {
-                    // this.audioGain.disconnect(this.filters.custom)
                     this.filters.custom.disconnect(this.audioGain)
                     this.filters.custom.disconnect(this.audioContext.destination)
 
