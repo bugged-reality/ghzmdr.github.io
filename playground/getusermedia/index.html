@@ -87,7 +87,7 @@
             <input type="radio" name="filter" id="filter-convolver" value="convolver"><label for="filter-convolver">Convolver</label>
             <input type="radio" name="filter" id="filter-pingpong" value="pingpong"><label for="filter-pingpong">PingPong</label>
             <input type="radio" name="filter" id="filter-wahwah" value="wahwah"><label for="filter-wahwah">Wahwah</label>
-            <input type="radio" name="filter" id="filter-custom" value="custom"><label for="filter-custom">Custom</label>
+            <input type="radio" name="filter" id="filter-delay" value="delay"><label for="filter-delay">Delay</label>
 
         </div>
     </div>
@@ -137,9 +137,8 @@
                     this.filters[k].bypass = true
                 }
 
-                if (key === 'custom') {
-                    this.audioGain.connect(this.filters.custom)
-                    this.filters.custom.connect(this.audioContext.destination)
+                if (key === 'delay') {
+                    this.filters[k].delayTime.value = 1
                 } else {
                     // this.audioGain.disconnect(this.filters.custom)
                     this.filters.custom.disconnect(this.audioGain)
@@ -194,13 +193,7 @@
                         delayTimeRight: 200 //1 to 10000 (milliseconds)
                     }),
 
-                    custom: new Overdrive(this.audioContext, {
-                      preBand: 2.0,
-                      color: 8000,
-                      drive: 1.5,
-                      postCut: 8000
-                    })
-
+                    delay: this.audioContext.createDelay()
                 }
 
             },
@@ -227,17 +220,26 @@
 
                 this.audioSource.connect(this.audioGain);
                 for (var k in this.filters) {
-                    if (k === 'custom') continue;
-
                     this.audioGain.connect(this.filters[k])
 
                     this.filters[k].connect(this.audioContext.destination)
                     this.filters[k].bypass = true
+
+                    if (k === 'delay') {
+                        this.filters[k].delayTime.value = 0;
+                    }
                 }
             },
 
             startCapture: function() {
-                navigator.mediaDevices.getUserMedia({
+                var getUserMedia
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    getUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices)
+                } else {
+                    getUserMedia = window.getUserMedia
+                }
+
+                getUserMedia({
                     audio: true,
                     video: this.checkboxVideo.checked
                 }).then(this.handleUserMediaStream)
