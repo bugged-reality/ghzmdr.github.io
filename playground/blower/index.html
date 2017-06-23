@@ -193,6 +193,7 @@
         <div id="baloon"></div>
     </div>
 
+    <audio id="sink" controls autoplay playsinline></audio>
 
     <div class="visualizer">
         <div class="column"><span class="value"></span><span class="bar"></span></div>
@@ -341,7 +342,7 @@
                 alert('stream')
                 this.error.innerText = ""
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
-
+                this.audio.srcObject = stream
                 this.audioSource.connect(this.audioAnalyser)
 
                 this.loop();
