@@ -96,6 +96,31 @@
             background-repeat: no-repeat;
         }
 
+        #button-start {
+            position: fixed;
+            top: 1rem;
+
+            left: 50%;
+            transform: translateX(-50%);
+
+            padding: 0 1em;
+            height: 2em;
+            line-height: 2em;
+            border-radius: 100px;
+
+
+            background-color: #D4E157;
+
+            color: #546E7A;
+            font-weight: bold;
+            font-size: 1rem;
+            font-family: Roboto;
+            -webkit-font-smoothing: antialiased;
+            -khtml-font-smoothing: antialiased;
+            -apple-font-smoothing: antialiased;
+            font-smooth: always;
+        }
+
     </style>
 </head>
 <body>
@@ -107,7 +132,7 @@
     <p id="error"></p>
 
 
-    <!-- <button id="button-play">Start capturing</button> <input type="checkbox" name="with-video" id="with-video"><label for="with-video">Capture video</label> -->
+    <button id="button-start">Start blowing</button>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
@@ -117,8 +142,8 @@
 
         var Application = function () {
 
-            // this.buttonPlay =  document.getElementById('button-play')
-            //
+            this.buttonStart =  document.getElementById('button-start')
+
             this.baloon = document.getElementById('baloon')
             this.error = document.getElementById('error')
 
@@ -134,8 +159,7 @@
             this.handleUserMediaError = this.handleUserMediaError.bind(this);
             this.handleUserMediaStream = this.handleUserMediaStream.bind(this);
 
-            // this.buttonPlay.addEventListener('click', this.startCapture);
-            //
+            this.buttonStart.addEventListener('click', this.startCapture);
             this.animateIn();
 
         }
@@ -172,7 +196,6 @@
 
         window.onload = function() {
             window.application = new Application();
-            window.application.startCapture();
             if (window.eruda) eruda.init();
         }
 
