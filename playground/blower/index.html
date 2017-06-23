@@ -179,6 +179,12 @@
             background-color: red;
         }
 
+        #sink {
+            position: fixed;
+            z-index: 100000000;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
@@ -270,7 +276,7 @@
 
             this.audioAnalyser = this.audioContext.createAnalyser()
             this.audioAnalyser.fttSize = 64
-            this.audioGain = this.audioContext.createGain();
+
             this.frequencyData = new Uint8Array(this.audioAnalyser.frequencyBinCount) //MAX is 255
 
             this.loop = this.loop.bind(this);
@@ -343,6 +349,7 @@
 
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
                 this.audioSource.connect(this.audioAnalyser)
+                this.audioAnalyser.connect(this.audioContext.destination)
 
                 this.audio.play()
                 this.audio.onmetadataloaded = function() {
