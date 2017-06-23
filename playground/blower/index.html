@@ -121,6 +121,55 @@
             font-smooth: always;
         }
 
+
+        .visualizer {
+            position: fixed;
+            display: flex;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100px;
+            background-color: green;
+
+            font-size: 0;
+        }
+
+        .visualizer .column {
+            display: inline-block;
+            position: relative;
+            flex-grow: 1;
+            margin-right: 5px;
+
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .visualizer .column .bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            height: 100%;
+            width: 100%;
+
+            background-color: orange;
+            transform-origin: bottom;
+        }
+
+        .visualizer .column .value {
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 10px;
+
+            width: 100%;
+            max-width: 100%;
+            font-size: 10px;
+            color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -129,12 +178,48 @@
         <div id="baloon"></div>
     </div>
 
+    <div class="visualizer">
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+        <div class="column"><span class="value"></span><span class="bar"></span></div>
+    </div>
+
     <p id="error"></p>
 
 
     <button id="button-start">Start blowing</button>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TimelineLite.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/CSSPlugin.min.js"></script>
 
@@ -145,6 +230,8 @@
             this.buttonStart =  document.getElementById('button-start')
 
             this.baloon = document.getElementById('baloon')
+            this.bars = Array.from(document.querySelectorAll('.visualizer .column .bar'))
+            this.values = Array.from(document.querySelectorAll('.visualizer .column .value'))
             this.error = document.getElementById('error')
 
             this.constraints = {
@@ -153,23 +240,53 @@
 
             this.audioSource = null
             this.audioContext = new (window.webkitAudioContext || window.AudioContext)()
-            this.audioGain = this.audioContext.createGain();
 
+            this.audioAnalyser = this.audioContext.createAnalyser()
+            this.audioAnalyser.connect(this.audioContext.destination)
+            this.audioAnalyser.fttSize = 64
+            this.frequencyData = new Uint8Array(this.audioAnalyser.frequencyBinCount) //MAX is 255
+
+            this.loop = this.loop.bind(this);
             this.startCapture = this.startCapture.bind(this);
             this.handleUserMediaError = this.handleUserMediaError.bind(this);
             this.handleUserMediaStream = this.handleUserMediaStream.bind(this);
 
             this.buttonStart.addEventListener('click', this.startCapture);
+
+            this.setupGrowTimeline();
             this.animateIn();
 
+            this.loop();
         }
 
         Application.prototype = {
 
 
+
+            loop: function() {
+
+                this.audioAnalyser.getByteFrequencyData(this.frequencyData);
+
+                for (var i in this.bars) {
+                    var progress = this.frequencyData[i] / 255;
+                    this.bars[i].style.transform = 'scaleY(' + progress + ')';
+                }
+
+                for (var i in this.values) {
+                    this.values[i].textContent = this.frequencyData[i]
+                }
+
+                requestAnimationFrame(this.loop)
+            },
+
             animateIn: function () {
-                console.log('Animin');
-                new TweenLite.to(this.baloon, 0.8, {scaleX: 0.2, scaleY: 0.6, force3D: true, ease: Elastic.easeOut.config(1, 0.4)})
+                TweenLite.to(this.baloon, 0.8, {scaleX: 0.2, scaleY: 0.6, force3D: true, ease: Elastic.easeOut.config(1, 0.4)})
+            },
+
+            setupGrowTimeline: function() {
+                this._growTimeline = new TimelineLite();
+                this._growTimeline.fromTo(this.baloon, 1, {scaleX: 0.2, scaleY: 0.6}, {scaleX: 1, scaleY: 1, force3D: true, ease: Back.easeOut.config(1)})
+                this._growTimeline.stop();
             },
 
             handleUserMediaError: function(e) {
@@ -179,6 +296,8 @@
             handleUserMediaStream: function(stream) {
                 this.error.innerText = ""
                 this.audioSource = this.audioContext.createMediaStreamSource(stream)
+
+                this.audioSource.connect(this.audioAnalyser)
             },
 
             startCapture: function() {
