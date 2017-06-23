@@ -22,7 +22,7 @@
             width: 100%;
             background-color: #424242;
 
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
         }
 
         .advice {
@@ -76,9 +76,9 @@
 <body>
 
     <div class="content">
-        <audio id="sink" controls autoplay playsinline></audio>
+        <video id="sink" autoplay playsinline></video>
         <div class="advice">Warning: wear your headphones and/or lower the volume</div>
-        <button id="button-play">Start capturing</button> <!-- <input type="checkbox" name="with-video" id="with-video"><label for="with-video">Capture video</label> -->
+        <button id="button-play">Start capturing</button> <input type="checkbox" name="with-video" id="with-video"><label for="with-video">Capture video</label>
         <p id="error"></p>
 
         <div class="filters">
@@ -215,7 +215,7 @@
                 this.attachFilters()
 
                 this.buttonPlay.disabled = true
-                // this.checkboxVideo.disabled = true
+                this.checkboxVideo.disabled = true
 
                 this.video.play()
             },
@@ -245,7 +245,7 @@
 
                 getUserMedia({
                     audio: true,
-                    // video: this.checkboxVideo.checked
+                    video: this.checkboxVideo.checked
                 }).then(this.handleUserMediaStream)
                   .catch(this.handleUserMediaError)
             }
