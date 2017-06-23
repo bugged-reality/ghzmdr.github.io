@@ -304,12 +304,17 @@
             },
 
             startCapture: function() {
+                this.buttonStart.style.visibility = 'hidden'
+
                 this.audioSource = this.audioContext.createMediaElementSource(this.audio)
                 this.audioSource.connect(this.audioAnalyser)
                 // this.audioAnalyser.connect(this.audioContext.destination)
 
                 this.audio.play();
-                alert('play')
+                this.audio.addEventListener('ended', function() {
+                    this.audio.play();
+                }.bind(this))
+
                 this.start();
             }
         }
