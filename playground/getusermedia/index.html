@@ -145,9 +145,6 @@
                 if (key === 'delay') {
                     this.filters[k].delayTime.value = 1
                 } else {
-                    this.filters.custom.disconnect(this.audioGain)
-                    this.filters.custom.disconnect(this.audioContext.destination)
-
                     this.filters[key].bypass = false
                 }
 
