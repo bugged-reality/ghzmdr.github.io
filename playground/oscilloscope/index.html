@@ -63,6 +63,7 @@
     function fromAudio() {
         audioSource.connect(audioAnalyser)
         audioSink.srcObject = noiseSource
+        audioElement.volume = 0
         audioElement.play()
         lastSource = audioSource
     }
