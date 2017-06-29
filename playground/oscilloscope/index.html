@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+    <body style="background-color:#000000;">
+  <button id="start">START</button>
+
+
+  <canvas id="canvas" width="500" height="500" style="border:1px solid #101c10; padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+                                                      vertical-align:middle;
+    display: block;
+    width: 500px;">
+  </body>
+
+  <script type="text/javascript">
+
+//copy from https://codepen.io/ompuco/pen/eBKNGz
+
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+
+var AudioContext = AudioContext || webkitAudioContext || mozAudioContext;
+var context = new AudioContext();
+var node
+  , buffer = context.createBuffer(2, 3280000, context.sampleRate)
+  , left = buffer.getChannelData(0), right = buffer.getChannelData(1);
+
+var points1 = [-1,-1,1,1];
+var points2 = [-1,1,1,-1];
+
+
+
+
+//var vp = [new THREE.Vector2(-1,-1),new THREE.Vector2(-1,1),new THREE.Vector2(1,1),new THREE.Vector2(1,-1)]
+
+
+
+
+for (var i = 0; i < 3280000; i++) {
+ //left[i] = (Math.random()-0.5)/1;
+ //right[i] = (Math.random()-0.5)/1;
+
+
+  //left[i] = (Math.sin((Math.pow(i,1))/22)/2) - (Math.sin((Math.cos(i/1)*1.1001))/12);
+  //right[i]=Math.cos((Math.pow(i,1))/22.01)/2 - (Math.cos((Math.sin(i/1)*1.1001))/12);
+
+  left[i] = (Math.sin((i)/22)/2);
+  right[i]=Math.cos((i)/43.81)/2;
+
+
+//left[i] = (Math.sin((Math.pow(i,1))/22)/2) - (Math.sin((i*.1001))/12);
+  //right[i]=Math.cos((Math.pow(i,1))/22.01)/2 - (Math.sin((Math.sin(i/1)*1.1001))/12);
+}
+
+buttonStart = document.querySelector('#start')
+
+buttonStart.addEventListener('click', function() {
+
+  navigator.mediaDevices.getUserMedia({audio: true})
+    .then(function(stream) {
+
+    node = context.createMediaStreamSource(stream)
+    node.connect(context.destination);
+    alert('start')
+    prepare()
+    draw()
+    buttonStart.style.visibility = 'hidden'
+  })
+
+})
+
+var analyser
+var analyser2
+var bufferLength
+var bufferLength2
+var dataArray
+var dataArray2
+
+function prepare() {
+  canvas = document.querySelector("canvas");
+  canvasCtx = canvas.getContext("2d");
+  WIDTH = 500;
+  HEIGHT = 500;
+  source = node;
+
+
+  analyser = context.createAnalyser();
+  analyser2 = context.createAnalyser();
+
+       // create a buffer source node
+          splitter = context.createChannelSplitter(2)
+
+          // connect the source to the analyser and the splitter
+          source.connect(splitter);
+
+  splitter.connect(analyser,0,0);
+  splitter.connect(analyser2,1,0);
+
+
+
+  //source.connect(analyser);
+  // etc.
+  analyser.fftSize = 1024;
+  analyser2.fftSize = 1024;
+  bufferLength = analyser.frequencyBinCount;
+  bufferLength2 = analyser2.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
+  dataArray2 = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(dataArray);
+  analyser2.getByteTimeDomainData(dataArray2);
+  canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+canvas = document.querySelector("canvas");
+canvasCtx = canvas.getContext("2d");
+WIDTH = 500;
+HEIGHT = 500;
+source = node;
+
+
+
+
+
+
+
+
+
+
+
+function draw() {
+  console.log('draw')
+drawVisual = requestAnimationFrame(draw);
+analyser.getByteTimeDomainData(dataArray);
+analyser2.getByteTimeDomainData(dataArray2);
+canvasCtx.fillStyle = '#070d07';
+      canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  canvasCtx.lineWidth = 1;
+
+
+      canvasCtx.beginPath();
+  var sliceWidth = WIDTH * 1.0 / bufferLength;
+
+  for(var i = 0; i < bufferLength; i++) {
+
+ //  if (i>0){canvasCtx.strokeStyle = 'rgba(0, 200, 0, ' +
+//(1-(Math.abs(((dataArray[i])+(dataArray2[i]))-((dataArray[i-1])+(dataArray2[i-1])))/50)) + ')';
+////////This line would give each stroke a color depending on difference between each sample but for now it doesn't work without beginPath set up for each line.
+          // }
+   // else{
+      canvasCtx.strokeStyle = 'rgba(0, 200, 0, 0.3)';
+ // }
+
+        var v = dataArray[i] / 128.0;
+        var x = v * HEIGHT/2;
+    var u = dataArray2[i] / 128.0;
+        var y = HEIGHT-(u * HEIGHT/2);
+
+
+          canvasCtx.lineTo(x, y);
+
+
+
+      }//canvasCtx.lineTo(canvas.width, canvas.height/2);
+      canvasCtx.stroke();
+    };
+
+
+  </script>
+</html>
