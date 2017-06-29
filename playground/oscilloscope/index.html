@@ -14,13 +14,16 @@
     </div>
 
 
-    <audio controls src="./test.mp3" id="sink"></audio>
+    <audio controls src="./test.mp3"></audio>
+    <audio id="sink" autoplay playsinline></audio>
 
 
     <script type="text/javascript">
 
     var canvas = document.querySelector('canvas')
     var canvasContext = canvas.getContext('2d')
+
+    var audioSink = document.querySelector('#sink')
 
     var buttonsSrc = document.querySelectorAll('button')
 
@@ -52,14 +55,14 @@
 
     function fromNoise() {
         noiseSource.connect(audioAnalyser)
-        noiseSource.connect(audioContext.destination)
+        audioSink.srcObject = noiseSource
 
         lastSource = noiseSource
     }
 
     function fromAudio() {
         audioSource.connect(audioAnalyser)
-        audioSource.connect(audioContext.destination)
+        audioSink.srcObject = noiseSource
         audioElement.play()
         lastSource = audioSource
     }
@@ -70,12 +73,12 @@
                 .then(function(stream) {
                     microphoneSource = audioContext.createMediaStreamSource(stream)
                     microphoneSource.connect(audioAnalyser)
-                    microphoneSource.connect(audioContext.destination);
+                    audioSink.srcObject = microphoneSource.mediaStream;
                     lastSource = microphoneSource
                 })
         } else {
             microphoneSource.connect(audioAnalyser)
-            microphoneSource.connect(audioContext.destination);
+            audioSink.srcObject = microphoneSource.mediaStream;
             lastSource = microphoneSource
         }
     }
@@ -83,7 +86,6 @@
     function swapSource(sourceName) {
         if (lastSource) {
             lastSource.disconnect(audioAnalyser);
-            lastSource.disconnect(audioContext.destination);
         }
 
         switch (sourceName) {
