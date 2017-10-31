@@ -1,14 +1,16 @@
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    entry: path.join(__dirname, 'src/js/main.js'),
+    entry: path.join(__dirname, './src/js/main.js'),
     output: {
-        path: path.join(__dirname, "./public/assets/js/"),
+        path: path.join(__dirname, './public/assets/js/'),
         filename: "[name].js"
     },
-    
+
+    devtool: '#inline-source-map',
+
     module: {
+
         rules: [
             {
               test: /\.js$/,
@@ -21,9 +23,5 @@ module.exports = {
               }
             }
         ]
-    },
-
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ]
+    }
 };
