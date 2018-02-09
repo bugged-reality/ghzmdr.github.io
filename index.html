@@ -4,6 +4,13 @@
         <title>Vincent</title>
         <meta name="description" content="Thinkering, Experimenting, Evolving" />
 
+        <meta property="og:title" content="Vincent" />
+        <meta property="og:description" content="Thinkering, Experimenting, Evolving" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ghzmdr.github.io" />
+        <meta property="og:image" content="https://ghzmdr.github.io/assets/img/still.jpg" />
+
         <style>
             html {
                 background: #263238;
@@ -14,15 +21,8 @@
             }
         </style>
 
-        <meta property="og:title" content="Vincent" />
-        <meta property="og:description" content="Thinkering, Experimenting, Evolving" />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://ghzmdr.github.io" />
-        <meta property="og:image" content="/assets/img/still.png" />
-
         <link href="https://fonts.googleapis.com/css?family=Lato|Arvo" rel="stylesheet">
-        <link rel="stylesheet" href="./assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
     </head>
     <body>
         <div class="js-application" id="application">
@@ -139,7 +139,7 @@
                 <div class="sidebar__background"></div>
 
                 <footer class="sidebar__footer">
-                    Version: 0.8.1 - <a class="button button-sources" target="_blank" href="https://github.com/ghzmdr/ghzmdr.github.io">Source Code</a>
+                    Version: 0.8.2 - <a class="button button-sources" target="_blank" href="https://github.com/ghzmdr/ghzmdr.github.io">Source Code</a>
                 </footer>
 
                 <div class="sidebar__content js-content">
@@ -392,7 +392,17 @@
                 <span class="icon icon-sound js-icon-sound"></span>
             </button> -->
 
-            <script src="./assets/js/main.js"></script>
+            <script src="/assets/js/main.js"></script>
+
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56401496-3"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'UA-56401496-3');
+            </script>
         </div>
     </body>
 </html>
