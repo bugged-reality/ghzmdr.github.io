@@ -9,8 +9,12 @@
 @import 'base/base.scss';
 @import 'base/copy.scss';
 
+/**     Icons */
+@import 'base/icons.scss';
+
 /**     Lists */
 @import 'partials/lists/list.scss';
+@import 'partials/lists/list-socials.scss';
 
 /**     Buttons */
 @import 'partials/buttons/button.scss';

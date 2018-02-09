@@ -37,7 +37,7 @@ export default class Application {
 
         this._timelineIn.set(this.el, {autoAlpha: 1}, 0);
         this._timelineIn.add(this.components.header.transitionIn(), 0.3);
-        this._timelineIn.add(this.components.sidebar.transitionIn(), 1.4);
+        this._timelineIn.add(this.components.sidebar.transitionIn(), 1.8);
 
     }
 

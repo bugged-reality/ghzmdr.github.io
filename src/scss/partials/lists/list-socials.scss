@@ -1,0 +1,19 @@
+.list-socials {
+    display: block;
+
+    -webkit-perspective: 0px; /* Safari 4-8 */
+    perspective: 0px;
+    backface-visibility: hidden;
+    transform: translatex(0px);
+
+    width: 100%;
+}
+
+.list-socials__item {
+    margin: 0 3.6%;
+
+    -webkit-perspective: 0px; /* Safari 4-8 */
+    perspective: 0px;
+    backface-visibility: hidden;
+    transform: translatex(0px);
+}
