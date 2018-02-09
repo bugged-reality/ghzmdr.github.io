@@ -1,10 +1,10 @@
-#Vincent's website
+# Vincent's website
 
 <https://ghzmdr.github.com>
 
 ✋! Welcome to the source code for my website, here's a brief description of what you're looking at.
 
-> ####Disclaimer:
+> #### Disclaimer:
 >
 > This website does not have to be production-proof, is mainly for me to experiment, showcase fresh concepts and give an idea of what goes on in my mind.
 > This means its build quality is often sacrificed in favor of flexibility and experimentation.
@@ -12,7 +12,7 @@
 
 
 
-####Goals:
+#### Goals:
 
 + Have a place where to link people looking for me.
 + Offer users a quick peek of what I like to do and am good at in an organic experience.
@@ -20,14 +20,14 @@
 + Keep design and development fluid, fun and expressive.
 
 
-####Choiches:
+#### Choiches:
 
 + No framework.
 + Prefer flexibility and fast iterations over stability.
 + Design, build and improve (and delete, redo, throw away) with fast iterations.
 
 
-####Reasons:
+#### Reasons:
 
 + I needed something quick, simple and effective.
 + I wanted to costrain myself into using a blank canvas with less tools possible and just go with the flow.
@@ -41,14 +41,15 @@ ___
 + SoundCloud custom player (for proper preloading and playback control)
 + Spotify playlist showing my last played tracks
 + Preloader with animation
++ Split HTML in modules FFS...
 
 ____
 
-#####Older versions
+##### Older versions
 In the commit history there are older versions which were not using any branching model, from now on I'll be using `git flow` with proper relases.
 
 
-#####Building and modifying
+##### Building and modifying
 You can play around with this website by cloning this repo, then run:
 
 + `yarn install` (or `npm install` if you don't use `yarn`)
