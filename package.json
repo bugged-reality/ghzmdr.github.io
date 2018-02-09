@@ -4,7 +4,8 @@
   "description": "My spot on the internet",
   "main": "script.js",
   "scripts": {
-    "develop": "gulp develop"
+    "develop": "gulp develop",
+    "release": "gulp release"
   },
   "author": "Vincent De Feo (ghzmdr)",
   "license": "ISC",
