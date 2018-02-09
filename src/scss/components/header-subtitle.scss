@@ -1,0 +1,26 @@
+.header-subtitle {
+    display: inline-block;
+}
+
+.header-subtitle__word {
+    @include text-rendering;
+    @include font-secondary;
+
+    display: inline-block;
+    color: #5b5b5b;
+    font-weight: bold;
+    vertical-align: middle;
+
+    text-transform: lowercase;
+    letter-spacing: 0.015em;
+}
+
+.header-subtitle__spacer {
+    @include text-rendering;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0.4;
+    color: $color-dark-grey;
+    font-size: 1.2em;
+    padding: 0 0.3em;
+}
