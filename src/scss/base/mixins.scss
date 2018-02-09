@@ -1,0 +1,14 @@
+@mixin text-rendering() {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+@mixin vertical-align {
+    font-size: 0;
+    &:before {
+        content: '';
+        height: 100%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+}

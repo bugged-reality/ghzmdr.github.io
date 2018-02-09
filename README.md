@@ -1,1 +1,0 @@
-# ghzmdr.github.io

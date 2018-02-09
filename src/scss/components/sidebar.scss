@@ -1,0 +1,62 @@
+.sidebar {
+    position: relative;
+    width: 100%;
+    left: 0;
+    right: 0;
+
+    top: 100%;
+}
+
+.sidebar__background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(#d2d2d2, 1);
+    box-shadow: 0 0 12px 3px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar__content {
+    width: 100%;
+    position: relative;
+    padding-bottom: 3.5rem;
+    overflow: hidden;
+}
+
+.sidebar__footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: monospace;
+    color: rgba(black, 0.6);
+}
+
+
+.button-sources {
+    color: blue;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+
+@include break-wide {
+
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        bottom: 0;
+        width: 46rem;
+        height: 100%;
+    }
+
+    .sidebar__content {
+        height: 100%;
+    }
+}
