@@ -35,7 +35,7 @@ export default class ButtonSidebar {
     open() {
 
         TweenLite.to(this.el, 0.5, {x: -20, ease: Power2.easeInOut, force3D: true});
-        TweenLite.to(this.ui.lines[0], 0.4, {attr:{x1: '50%', x2: '80%', y1: '25%', y2: '50%'}})
+        TweenLite.to(this.ui.lines[0], 0.4, {attr:{x1: '50%', x2: '80%', y1: '25%', y2: '49%'}})
         TweenLite.to(this.ui.lines[1], 0.4, {attr:{x1: '20%', x2: '76%'}})
         TweenLite.to(this.ui.lines[2], 0.4, {attr:{x1: '50%', x2: '80%', y1: '75%', y2: '50%'}})
 
