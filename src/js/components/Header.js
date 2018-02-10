@@ -2,6 +2,10 @@ import Accordion from 'components/Accordion';
 import Store from 'Store';
 import Actions from 'Actions';
 
+import Analytics from 'utils/Analytics';
+
+import {bindAll} from 'lodash';
+
 export default class Header {
 
     constructor(el) {
@@ -16,6 +20,8 @@ export default class Header {
             socialItems: Array.from(this.el.querySelectorAll('.js-social-item'))
         };
 
+        bindAll(this, '_itemClickHandler');
+
         this._buildTimelineIn();
         this._setupEventListeners();
     }
@@ -24,7 +30,10 @@ export default class Header {
         if (window.innerWidth < 1024) return;
 
         this.ui.socialItems.forEach(
-            (item, index) => this._bindSocialItemHover(item, index)
+            (item, index) => {
+                this._bindSocialItemHover(item, index)
+                item.addEventListener('click', this._itemClickHandler)
+            }
         )
     }
 
@@ -54,6 +63,11 @@ export default class Header {
         TweenLite.to(this.ui.socialItems, 0.4, {x: 0, scale: 1, ease: Power2.easeInOut})
     }
 
+    _itemClickHandler(e) {
+        const { type } = e.currentTarget.dataset;
+        Analytics.track('Socials', 'click', type);
+    }
+
     _buildTimelineIn() {
         this._timelineIn = new TimelineLite({paused: true});
 
@@ -67,7 +81,8 @@ export default class Header {
         this._timelineIn.fromTo(this.ui.title, 1, {opacity: 0}, {opacity: 1, ease: Power0.easeNone}, 1.05)
 
         this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {x: 30, ease: Power2.easeOut}, 0.1, 1.1)
-        this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {opacity: 0, ease: Power0.easeNone}, 0.1, 1.2)
+        this._timelineIn.staggerFrom(this.ui.socialItems, 0.4, {opacity: 0, ease: Power0.easeNone}, 0.1, 1.2)
+        this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {scale: 0.2, ease: Power2.easeInOut}, 0.1, 1.2)
 
         this._timelineIn.staggerFromTo(this.ui.subtitleWords, 0.8, {x: '-20'}, {x: '0', ease: Power3.easeOut}, 0.05, 1.15)
         this._timelineIn.staggerFromTo(this.ui.subtitleWords, 0.6, {opacity: 0}, {opacity: 1, ease: Power0.easeNone}, 0.05, 1.2);
