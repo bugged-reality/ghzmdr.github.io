@@ -82,7 +82,7 @@ export default class Header {
 
         this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {x: 30, ease: Power2.easeOut}, 0.1, 1.1)
         this._timelineIn.staggerFrom(this.ui.socialItems, 0.4, {opacity: 0, ease: Power0.easeNone}, 0.1, 1.2)
-        this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {scale: 0.2, ease: Power2.easeInOut}, 0.1, 1.5)
+        this._timelineIn.staggerFrom(this.ui.socialItems, 0.6, {scale: 0.2, ease: Power2.easeInOut}, 0.1, 1.2)
 
         this._timelineIn.staggerFromTo(this.ui.subtitleWords, 0.8, {x: '-20'}, {x: '0', ease: Power3.easeOut}, 0.05, 1.15)
         this._timelineIn.staggerFromTo(this.ui.subtitleWords, 0.6, {opacity: 0}, {opacity: 1, ease: Power0.easeNone}, 0.05, 1.2);
