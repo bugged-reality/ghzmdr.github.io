@@ -2,6 +2,10 @@ import Accordion from 'components/Accordion';
 import Store from 'Store';
 import Actions from 'Actions';
 
+import Analytics from 'utils/Analytics';
+
+import {bindAll} from 'lodash';
+
 export default class Header {
 
     constructor(el) {
@@ -16,6 +20,8 @@ export default class Header {
             socialItems: Array.from(this.el.querySelectorAll('.js-social-item'))
         };
 
+        bindAll(this, '_itemClickHandler');
+
         this._buildTimelineIn();
         this._setupEventListeners();
     }
@@ -24,7 +30,10 @@ export default class Header {
         if (window.innerWidth < 1024) return;
 
         this.ui.socialItems.forEach(
-            (item, index) => this._bindSocialItemHover(item, index)
+            (item, index) => {
+                this._bindSocialItemHover(item, index)
+                item.addEventListener('click', this._itemClickHandler)
+            }
         )
     }
 
@@ -52,6 +61,11 @@ export default class Header {
 
     _socialItemMouseLeave() {
         TweenLite.to(this.ui.socialItems, 0.4, {x: 0, scale: 1, ease: Power2.easeInOut})
+    }
+
+    _itemClickHandler(e) {
+        const { type } = e.currentTarget.dataset;
+        Analytics.track('Socials', 'click', type);
     }
 
     _buildTimelineIn() {
