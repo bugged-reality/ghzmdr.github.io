@@ -3,7 +3,7 @@ class Analytics {
 
         gtag('event', action, {
           'event_category': category,
-          'value': value
+          'event_label': value
         });
 
         // ga('send', 'event', category, action, null, value);
