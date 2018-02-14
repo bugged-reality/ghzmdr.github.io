@@ -2,7 +2,7 @@
 
 <https://ghzmdr.github.com>
 
-✋! Welcome to the source code for my website, here's a brief description of what you're looking at.
+Welcome to the source code for my website, here's a brief description of what you're looking at.
 
 > #### Disclaimer:
 >
@@ -40,6 +40,8 @@ Definetly not what I would usually push to prod, but something fun, fresh and fl
 
 ___
 ##### TODOs (like, definetly want them in!)
+
++ Change from sidebar to regular scroll and integrate media
 
 + A location / weather / mood widget.
 + SoundCloud custom player (for proper preloading and playback control)
